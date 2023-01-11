@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Six of Crows Memory Game</title>
+</head>
+<body>
+
+    <div class="header">
+        <div class="headerTitle">
+            <h1 id="gameTitle">Six of Crows Memory Game</h1>
+        </div>
+        <div class="infoBar">
+            <h2 id="timeLabel">Time: </h2>
+            <h2 id="timeCounter"></h2>
+            <h2 id="spacing"></h2>
+            <h2 id="matchesLabel">Matches: </h2>
+            <h2 id="matchesCounter"></h2>
+        </div>
+    </div>
+
+    <div class="gameBoard">
+        <div class="gameCards">
+            <img class="cardFront" src="assets/kazCard.jpg" alt="Card1Front">
+            <img class="cardBack" src="assets/blackCard.png" alt="Card1Back">
+        </div>
+        <div class="gameCards">
+            <img class="cardFront" src="assets/kazCard.jpg" alt="Card1Front">
+            <img class="cardBack" src="assets/blackCard.png" alt="Card1Back">
+        </div>
+        <div class="gameCards">
+            <img class="cardFront" src="assets/inejCard.jpg" alt="Card2Front">
+            <img class="cardBack" src="assets/blackCard.png" alt="Card2Back">
+        </div>
+        <div class="gameCards">
+            <img class="cardFront" src="assets/inejCard.jpg" alt="Card2Front">
+            <img class="cardBack" src="assets/blackCard.png" alt="Card2Back">
+        </div>
+        <div class="gameCards">
+            <img class="cardFront" src="assets/matthiasCard.jpg" alt="Card3Front">
+            <img class="cardBack" src="assets/blackCard.png" alt="Card3Back">
+        </div>
+        <div class="gameCards">
+            <img class="cardFront" src="assets/matthiasCard.jpg" alt="Card3Front">
+            <img class="cardBack" src="assets/blackCard.png" alt="Card3Back">
+        </div>
+        <div class="gameCards">
+            <img class="cardFront" src="assets/ninaCard.jpg" alt="Card4Front">
+            <img class="cardBack" src="assets/blackCard.png" alt="Card4Back">
+        </div>
+        <div class="gameCards">
+            <img class="cardFront" src="assets/ninaCard.jpg" alt="Card4Front">
+            <img class="cardBack" src="assets/blackCard.png" alt="Card4Back">
+        </div>
+        <div class="gameCards">
+            <img class="cardFront" src="assets/jesperCard.jpg" alt="Card5Front">
+            <img class="cardBack" src="assets/blackCard.png" alt="Card5Back">
+        </div>
+        <div class="gameCards">
+            <img class="cardFront" src="assets/jesperCard.jpg" alt="Card5Front">
+            <img class="cardBack" src="assets/blackCard.png" alt="Card5Back">
+        </div>
+        <div class="gameCards">
+            <img class="cardFront" src="assets/wylanCard.jpg" alt="Card6Front">
+            <img class="cardBack" src="assets/blackCard.png" alt="Card6Back">
+        </div>
+        <div class="gameCards">
+            <img class="cardFront" src="assets/wylanCard.jpg" alt="Card6Front">
+            <img class="cardBack" src="assets/blackCard.png" alt="Card6Back">
+        </div>
+    </div>
+
+    <div class="buttonsContainer">
+        <button class="buttons" id="startButton" onclick="startGame()">Start</button>
+        <button class="buttons" id="restartButton" onclick="restartGame()">Restart</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
