@@ -1,8 +1,12 @@
-var time = 30;
+var time = 15;
 var matches = 0;
 
 var sButton = document.getElementById("startButton");
 var rButton = document.getElementById("restartButton");
+
+var firstCard;
+var secondCard;
+let noFlips = true;
 
 window.onload = function() {
     rButton.style.display = "none";
@@ -12,6 +16,8 @@ window.onload = function() {
     
 function startGame() {
     
+    unlockCards();
+
     //remove start button
     sButton.style.display = "none";
 
@@ -41,21 +47,63 @@ function restartGame() {
 }
 
 function gameOver() {
-    
+    lockCards();
+
+    document.getElementById("timeLabel").innerHTML = "Game Over!";
+    time = null;
+
+    setTimeout(() => {
+        cards.forEach(card => card.classList.add('flip'));
+    }, 2000);
 }
 
 function flipCard() {
     this.classList.add('flip');
+
+    if (noFlips == true) {
+        firstCard = this;
+        noFlips = false;
+    } 
+    else if (noFlips == false) {
+        secondCard = this;
+        noFlips = true;
+    }
+    
+    console.log(firstCard);
+    console.log(secondCard);
+
+    checkCards();
+
 }
 
 const cards = document.querySelectorAll('.gameCards');
 
-cards.forEach(card => card.addEventListener('click', flipCard));
-
 function shuffleCards() {
-
     cards.forEach(card => {
         let randomPosition = Math.floor(Math.random() * 12);
         card.style.order = randomPosition;
     })
+}    
+
+function unlockCards() {
+    cards.forEach(card => card.addEventListener('click', flipCard));
+}
+
+function lockCards() {
+        cards.forEach(card => card.removeEventListener('click', flipCard));
+}
+
+function checkCards() {
+
+    if (firstCard != null && secondCard != null) {
+        if (firstCard === secondCard) {
+            matches++;
+        }
+        else {
+            setTimeout(() => {
+               firstCard.classList.remove('flip');
+               secondCard.classList.remove('flip');
+            }, 1750);
+        }
+    }
 }
