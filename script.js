@@ -1,4 +1,8 @@
-var time = 15;
+/*
+
+*/
+
+var time = 30.0;
 var matches = 0;
 
 var sButton = document.getElementById("startButton");
@@ -7,6 +11,8 @@ var rButton = document.getElementById("restartButton");
 var firstCard;
 var secondCard;
 let noFlips = true;
+
+var timer;
 
 window.onload = function() {
     rButton.style.display = "none";
@@ -28,33 +34,35 @@ function startGame() {
     document.getElementById("timeCounter").innerHTML = time;
 
     //timer
-    setInterval(function() {
+    timer = setInterval(function() {
+
         if (time > 0) {
-            time--;
+            time-=.01;
         }
         else {
             gameOver();
         }
-        document.getElementById("timeCounter").innerHTML = time;
-    }, 1000)
+        document.getElementById("timeCounter").innerHTML = time === null ? "" : time.toFixed(2);
+    }, 10)
 
     //add matches
     document.getElementById("matchesCounter").innerHTML = matches;
 }
 
 function restartGame() {
-    
+    location.reload();
 }
 
 function gameOver() {
+
     lockCards();
 
-    document.getElementById("timeLabel").innerHTML = "Game Over!";
+    document.getElementById("timeLabel").innerHTML = matches != 6 ? "Game Over!" : "You Win!";
     time = null;
 
     setTimeout(() => {
         cards.forEach(card => card.classList.add('flip'));
-    }, 2000);
+    }, 1000);
 }
 
 function flipCard() {
@@ -73,7 +81,6 @@ function flipCard() {
     console.log(secondCard);
 
     checkCards();
-
 }
 
 const cards = document.querySelectorAll('.gameCards');
@@ -96,13 +103,30 @@ function lockCards() {
 function checkCards() {
 
     if (firstCard != null && secondCard != null) {
-        if (firstCard === secondCard) {
+
+        lockCards();
+        if (firstCard.getElementsByTagName("img")[0].src === secondCard.getElementsByTagName("img")[0].src) {
             matches++;
+
+            document.getElementById("matchesCounter").innerHTML = matches;
+
+            firstCard = undefined;
+            secondCard = undefined;
+
+            if (matches == 6) {
+                gameOver();
+            } 
+            else unlockCards();
         }
         else {
             setTimeout(() => {
                firstCard.classList.remove('flip');
                secondCard.classList.remove('flip');
+
+               firstCard = undefined;
+               secondCard = undefined;
+
+               unlockCards();
             }, 1750);
         }
     }
