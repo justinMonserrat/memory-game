@@ -1,19 +1,25 @@
 /*
 
+
+
 */
 
-var time = 30.0;
+
+const cards = document.querySelectorAll('.gameCards');
+const tLabel = document.getElementById("timeLabel");
+const tCounter = document.getElementById("timeCounter");
+const mLabel = document.getElementById("matchesLabel");
+const mCounter = document.getElementById("matchesCounter");
+const rButton = document.getElementById("restartButton");
+const sButton = document.getElementById("startButton");
+
+var time = 30;
 var matches = 0;
-
-var sButton = document.getElementById("startButton");
-var rButton = document.getElementById("restartButton");
-
 var firstCard;
 var secondCard;
-let noFlips = true;
+var noFlips = true;
 
-var timer;
-
+//When the page is loaded the restart button will be hidden and the cards will be shuffled
 window.onload = function() {
     rButton.style.display = "none";
 
@@ -24,47 +30,71 @@ function startGame() {
     
     unlockCards();
 
-    //remove start button
+    //Removes the start button and then adds the restart button to the screen
     sButton.style.display = "none";
-
-    //add restart button
     rButton.style.display = "block";
-        
-    //add timer to screen
-    document.getElementById("timeCounter").innerHTML = time;
-
-    //timer
-    timer = setInterval(function() {
+    
+    //Timer
+    setInterval(function() {
 
         if (time > 0) {
-            time-=.01;
+            time--;
         }
         else {
             gameOver();
         }
-        document.getElementById("timeCounter").innerHTML = time === null ? "" : time.toFixed(2);
-    }, 10)
-
-    //add matches
-    document.getElementById("matchesCounter").innerHTML = matches;
+        tCounter.innerHTML = time; //Adds the timer to the screen
+    }, 1000)
 }
 
+//The page will be refreshed when the "restartButton" is clicked
 function restartGame() {
     location.reload();
 }
 
+//This function is executed when the time runs out or the players makes all 6 matches
 function gameOver() {
-
+    
     lockCards();
+    clearInterval();
 
-    document.getElementById("timeLabel").innerHTML = matches != 6 ? "Game Over!" : "You Win!";
-    time = null;
-
+    //Different displays based on if the user wins or fails
+    if (matches === 6) {
+        tLabel.innerHTML = "You Win!";
+        tCounter.style.display = "none";
+        mLabel.style.display = "none";
+        mCounter.style.display = "none";
+        tLabel.style.margin = "1.5em";
+    } 
+    else {
+        tLabel.innerHTML = "Game Over!";
+        tCounter.style.display = "none";
+        tLabel.style.margin = "1.5em";
+    }
+    
+    //Whichever cards the user did not match will flip over and reveal themselves a second after the game ends
     setTimeout(() => {
         cards.forEach(card => card.classList.add('flip'));
     }, 1000);
 }
 
+//
+function shuffleCards() {
+    cards.forEach(card => {
+        let randomPosition = Math.floor(Math.random() * 12);
+        card.style.order = randomPosition;
+    })
+}  
+
+function unlockCards() {
+    cards.forEach(card => card.addEventListener('click', flipCard));
+}
+
+function lockCards() {
+    cards.forEach(card => card.removeEventListener('click', flipCard));
+}
+
+//
 function flipCard() {
     this.classList.add('flip');
 
@@ -76,39 +106,20 @@ function flipCard() {
         secondCard = this;
         noFlips = true;
     }
-    
-    console.log(firstCard);
-    console.log(secondCard);
 
     checkCards();
-}
-
-const cards = document.querySelectorAll('.gameCards');
-
-function shuffleCards() {
-    cards.forEach(card => {
-        let randomPosition = Math.floor(Math.random() * 12);
-        card.style.order = randomPosition;
-    })
-}    
-
-function unlockCards() {
-    cards.forEach(card => card.addEventListener('click', flipCard));
-}
-
-function lockCards() {
-        cards.forEach(card => card.removeEventListener('click', flipCard));
-}
+}  
 
 function checkCards() {
 
     if (firstCard != null && secondCard != null) {
 
         lockCards();
+
         if (firstCard.getElementsByTagName("img")[0].src === secondCard.getElementsByTagName("img")[0].src) {
             matches++;
 
-            document.getElementById("matchesCounter").innerHTML = matches;
+            mCounter.innerHTML = matches;
 
             firstCard = undefined;
             secondCard = undefined;
