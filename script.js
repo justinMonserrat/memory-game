@@ -78,7 +78,9 @@ function shuffleCards() {
     })
 }  
 
-//
+//Determines if all 12 cards can be clicked on or not
+//-lockCards (boolean)- When the function is called this determines if
+//the cards should be locked (true), or if they should be unlocked (false)
 function setCardsLock(lockCards) {
     for (var i = 0; i < cards.length; i++) {
         if (!lockCards) {
