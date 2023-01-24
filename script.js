@@ -69,7 +69,7 @@ function gameOver() {
     }, 1000);
 }
 
-//
+//Gives each card a random position on the screen
 function shuffleCards() {
     //forEach instead of for so each card is easily assigned a unique value
     cards.forEach(card => {
