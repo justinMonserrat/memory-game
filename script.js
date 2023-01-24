@@ -1,11 +1,5 @@
-/*
-
-
-
-*/
-
-
-const cards = document.querySelectorAll('.gameCards');
+//Stores elements from html file
+const cards = Array.from(document.querySelectorAll('.gameCards'));
 const tLabel = document.getElementById("timeLabel");
 const tCounter = document.getElementById("timeCounter");
 const mLabel = document.getElementById("matchesLabel");
@@ -13,6 +7,7 @@ const mCounter = document.getElementById("matchesCounter");
 const rButton = document.getElementById("restartButton");
 const sButton = document.getElementById("startButton");
 
+//Define variables
 var time = 30;
 var matches = 0;
 var firstCard;
@@ -22,13 +17,14 @@ var noFlips = true;
 //When the page is loaded the restart button will be hidden and the cards will be shuffled
 window.onload = function() {
     rButton.style.display = "none";
-
+    setCardsLock(true);
     shuffleCards();
 }
     
+//
 function startGame() {
-    
-    unlockCards();
+
+    setCardsLock(false);
 
     //Removes the start button and then adds the restart button to the screen
     sButton.style.display = "none";
@@ -37,12 +33,8 @@ function startGame() {
     //Timer
     setInterval(function() {
 
-        if (time > 0) {
-            time--;
-        }
-        else {
-            gameOver();
-        }
+        time > 0 ? time-- : gameOver();
+
         tCounter.innerHTML = time; //Adds the timer to the screen
     }, 1000)
 }
@@ -55,7 +47,7 @@ function restartGame() {
 //This function is executed when the time runs out or the players makes all 6 matches
 function gameOver() {
     
-    lockCards();
+    setCardsLock(true);
     clearInterval();
 
     //Different displays based on if the user wins or fails
@@ -86,35 +78,42 @@ function shuffleCards() {
     })
 }  
 
-function unlockCards() {
-    cards.forEach(card => card.addEventListener('click', flipCard));
-}
-
-function lockCards() {
-    cards.forEach(card => card.removeEventListener('click', flipCard));
+//
+function setCardsLock(lockCards) {
+    for (var i = 0; i < cards.length; i++) {
+        if (!lockCards) {
+            cards[i].addEventListener('click', flipCard);
+        } else {
+            cards[i].removeEventListener('click', flipCard);
+        }
+    }
 }
 
 //
 function flipCard() {
-    this.classList.add('flip');
+    if (!this.classList.contains('flip')) {
 
-    if (noFlips == true) {
-        firstCard = this;
-        noFlips = false;
-    } 
-    else if (noFlips == false) {
-        secondCard = this;
-        noFlips = true;
+        this.classList.add('flip');
+
+        if (noFlips == true) {
+            firstCard = this;
+            noFlips = false;
+        } 
+        else if (noFlips == false) {
+            secondCard = this;
+            noFlips = true;
+        }
+
+        checkCards();
     }
-
-    checkCards();
 }  
 
+//
 function checkCards() {
 
     if (firstCard != null && secondCard != null) {
 
-        lockCards();
+        setCardsLock(true);
 
         if (firstCard.getElementsByTagName("img")[0].src === secondCard.getElementsByTagName("img")[0].src) {
             matches++;
@@ -124,10 +123,10 @@ function checkCards() {
             firstCard = undefined;
             secondCard = undefined;
 
-            if (matches == 6) {
+            if (matches === 6) {
                 gameOver();
             } 
-            else unlockCards();
+            else setCardsLock(false);
         }
         else {
             setTimeout(() => {
@@ -137,7 +136,7 @@ function checkCards() {
                firstCard = undefined;
                secondCard = undefined;
 
-               unlockCards();
+               setCardsLock(false);
             }, 1750);
         }
     }
