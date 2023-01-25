@@ -26,16 +26,14 @@ window.onload = function() {
 function startGame() {
 
     setCardsLock(false); //Unlocks cards
-
-    //Removes the start button and then adds the restart button to the screen
-    sButton.style.display = "none";
-    rButton.style.display = "block";
+    sButton.style.display = "none"; //Removes start button
+    rButton.style.display = "block"; //Adds restart button
     
     //Timer
     setInterval(function() {
         time > 0 ? time-- : gameOver(); //Ternary operator- conditional ? true : false
         tCounter.innerHTML = time; //Adds the timer to the screen
-    }, 1000)
+    }, 1000);
 }
 
 //The page will be refreshed when the "restartButton" is clicked
@@ -63,7 +61,8 @@ function gameOver() {
         tLabel.style.margin = "1.5em";
     }
     
-    //Whichever cards the user did not match will flip over being revealed a second after the game ends
+    //Whichever cards the user did not match will flip over
+    //being revealed a second after the game ends
     setTimeout(() => {
         cards.forEach(card => card.classList.add('flip'));
     }, 1000);
@@ -71,7 +70,7 @@ function gameOver() {
 
 //Gives each card a random position on the screen
 function shuffleCards() {
-    //forEach instead of for so each card is easily assigned a unique value
+    //forEach is used so each card is easily assigned a unique value
     cards.forEach(card => {
         let randomPosition = Math.floor(Math.random() * 12);
         card.style.order = randomPosition;
@@ -79,8 +78,8 @@ function shuffleCards() {
 }  
 
 //Determines if all 12 cards can be clicked on or not
-//-lockCards (boolean)- When the function is called this determines if
-//the cards should be locked (true), or if they should be unlocked (false)
+//-lockCards (boolean)- When the function is called (true) means the
+//cards should be locked, (false) means they should be unlocked
 function setCardsLock(lockCards) {
     for (var i = 0; i < cards.length; i++) {
         if (!lockCards) {
@@ -93,7 +92,8 @@ function setCardsLock(lockCards) {
 
 //Executed if the card is unlocked and clicked
 function flipCard() {
-    if (!this.classList.contains('flip')) { //Makes sure it's not alread flipped over
+    //Checks if the card is already flipped
+    if (!this.classList.contains('flip')) {
 
         this.classList.add('flip'); //Adds css flip animation
 
@@ -113,8 +113,8 @@ function flipCard() {
 
 //Used to determine if the two cards flipped over are a match 
 function checkCards() {
-
-    if (firstCard != null && secondCard != null) { //Only checks when two cards have been flipped
+    //Only checks when two cards have been flipped
+    if (firstCard != null && secondCard != null) { 
 
         setCardsLock(true); //Locks cards while checking
 
